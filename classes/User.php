@@ -43,25 +43,25 @@ class User
     public function validateCompletion()
     {
         if ($this->userDB->id == null) {
-            throw new InvalidArgumentException();
+            throw new InvalidArgumentException('Should not be null !');
         }
         if ($this->userDB->username == null) {
-            throw new InvalidArgumentException();
+            throw new InvalidArgumentException('Should not be null !');
         }
         if ($this->userDB->firstName == null) {
-            throw new InvalidArgumentException();
+            throw new InvalidArgumentException('Should not be null !');
         }
         if ($this->userDB->lastName == null) {
-            throw new InvalidArgumentException();
+            throw new InvalidArgumentException('Should not be null !');
         }
         if ($this->userDB->email == null) {
-            throw new InvalidArgumentException();
+            throw new InvalidArgumentException('Should not be null !');
         }
         if ($this->userDB->password == null) {
-            throw new InvalidArgumentException();
+            throw new InvalidArgumentException('Should not be null !');
         }
         if ($this->userDB->type == null) {
-            throw new InvalidArgumentException();
+            throw new InvalidArgumentException('Should not be null !');
         }
         return true;
     }
@@ -95,26 +95,26 @@ class User
      */
     public function validateDeletion()
     {
-        if ($this->id != null && $this->userDB->id) {
-            throw new InvalidArgumentException();
+        if ($this->id != null && $this->userDB->id != null) {
+            throw new InvalidArgumentException('Should be null !');
         }
-        if ($this->username != null && $this->userDB->username) {
-            throw new InvalidArgumentException();
+        if ($this->username != null && $this->userDB->username != null) {
+            throw new InvalidArgumentException('Should be null !');
         }
-        if ($this->firstName != null && $this->userDB->firstName) {
-            throw new InvalidArgumentException();
+        if ($this->firstName != null && $this->userDB->firstName != null) {
+            throw new InvalidArgumentException('Should be null !');
         }
-        if ($this->lastName != null && $this->userDB->lastName) {
-            throw new InvalidArgumentException();
+        if ($this->lastName != null && $this->userDB->lastName != null) {
+            throw new InvalidArgumentException('Should be null !');
         }
-        if ($this->email != null && $this->userDB->email) {
-            throw new InvalidArgumentException();
+        if ($this->email != null && $this->userDB->email != null) {
+            throw new InvalidArgumentException('Should be null !');
         }
-        if ($this->password != null && $this->userDB->password) {
-            throw new InvalidArgumentException();
+        if ($this->password != null && $this->userDB->password != null) {
+            throw new InvalidArgumentException('Should be null !');
         }
-        if ($this->type != null && $this->userDB->type) {
-            throw new InvalidArgumentException();
+        if ($this->type != null && $this->userDB->type != null) {
+            throw new InvalidArgumentException('Should be null !');
         }
         return true;
     }

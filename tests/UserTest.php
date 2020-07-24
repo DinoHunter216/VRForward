@@ -35,7 +35,11 @@ class UserTest extends TestCase
             // Assert
             $this->fail();
         } catch (InvalidArgumentException $e) {
-            $this->assertTrue(true);
+            if ($e->getMessage() === 'Should not be null !') {
+                $this->assertTrue(true);
+            } else {
+                $this->fail();
+            }
         }
     }
 
@@ -58,7 +62,7 @@ class UserTest extends TestCase
     {
         // Arrange
         $userDB = new \DBUserMock(null);
-        $user = new \User($userDB, self::ERROR_INFO_ARRAY);
+        $user = new \User($userDB, self::FULL_INFO_ARRAY);
         $user->create();
 
         // Act
@@ -68,7 +72,12 @@ class UserTest extends TestCase
             // Assert
             $this->fail();
         } catch (InvalidArgumentException $e) {
-            $this->assertTrue(true);
+            var_dump($e->getMessage());
+            if ($e->getMessage() === 'Should be null !') {
+                $this->assertTrue(true);
+            } else {
+                $this->fail();
+            }
         }
     }
 }
