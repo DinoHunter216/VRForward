@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Slanted Navbar</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	</head>
+	<body>
+		<div class="page-container">
+			<div id="logo">TITLE</div>
+			<div class="navigation-wrapper">
+				<div class="navigation-button">
+					<div class="menu-border">
+						<div class="menu"></div>
+						<div class="menu"></div>
+						<div class="menu"></div>
+					</div>
+				</div>
+			</div>
+			<div class="navigation-menu">
+				<ul>
+					<li><a href="">HOME</a></li>
+					<li><a href="">CART</a></li>
+					<li><a href="">SEARCH</a></li>
+					<li><a href="">CONNECTION</a></li>
+				</ul>
+			</div>
+			<section class="content">
+				<h1>
+					MAIN <br />
+					<span>PAGE</span>
+				</h1>
+				<div class="button">
+					<a href="" class="btn1">BUTTON 1</a>
+					<a href="" class="btn2">BUTTON 2</a>
+				</div>
+			</section>
+		</div>
+		<script>
+			let navButton = document.querySelector(".navigation-button");
+			let navMenu = document.querySelector(".navigation-menu");
+			let win = window;
+
+			function openMenu(event) {
+				navButton.classList.toggle("active");
+				navMenu.classList.toggle("active");
+
+				event.preventDefault();
+				event.stopImmediatePropagation();
+			}
+
+			function closeMenu(event) {
+				if (navButton.classList.contains("active")) {
+					navButton.classList.remove("active");
+					navMenu.classList.remove("active");
+				}
+			}
+			navButton.addEventListener("click", openMenu, false);
+
+			win.addEventListener("click", closeMenu, false);
+		</script>
+	</body>
+</html>
