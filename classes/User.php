@@ -22,6 +22,8 @@ class User
         $this->email = $infoArray[4];
         $this->password = $infoArray[5];
         $this->type = $infoArray[6];
+
+        $this->hashPassword();
     }
 
     public function create()
@@ -117,5 +119,15 @@ class User
             throw new InvalidArgumentException('Should be null !');
         }
         return true;
+    }
+
+    private function hashPassword()
+    {
+        $this->password = password_hash($this->password, PASSWORD_DEFAULT);
+    }
+
+    public function getPassword()
+    {
+        return $password = $this->password;
     }
 }

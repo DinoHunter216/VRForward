@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-class UserTest extends TestCase
+class UserCreationTest extends TestCase
 {
     private const FULL_INFO_ARRAY = ['1', 'username', 'firstName', 'lastName', 'email', 'password', 'type'];
     private const ERROR_INFO_ARRAY = [null, 'username', 'firstName', 'lastName', 'email', 'password', 'type'];
@@ -18,7 +18,7 @@ class UserTest extends TestCase
         $validation = $user->validateCompletion();
 
         // Assert
-        $this->assertTrue($validation);
+        self::assertTrue($validation);
     }
 
     public function testWHEN_user_is_created_wrong_RETURN_Exception()
@@ -33,12 +33,12 @@ class UserTest extends TestCase
             $user->validateCompletion();
 
             // Assert
-            $this->fail();
+            self::fail();
         } catch (InvalidArgumentException $e) {
             if ($e->getMessage() === 'Should not be null !') {
-                $this->assertTrue(true);
+                self::assertTrue(true);
             } else {
-                $this->fail();
+                self::fail();
             }
         }
     }
@@ -55,7 +55,7 @@ class UserTest extends TestCase
         $validation = $user->validateDeletion();
 
         // Assert
-        $this->assertTrue($validation);
+        self::assertTrue($validation);
     }
 
     public function testWHEN_user_is_deleted_wrong_RETURN_Exception()
@@ -70,13 +70,13 @@ class UserTest extends TestCase
             $user->validateDeletion();
 
             // Assert
-            $this->fail();
+            self::fail();
         } catch (InvalidArgumentException $e) {
             var_dump($e->getMessage());
             if ($e->getMessage() === 'Should be null !') {
-                $this->assertTrue(true);
+                self::assertTrue(true);
             } else {
-                $this->fail();
+                self::fail();
             }
         }
     }
