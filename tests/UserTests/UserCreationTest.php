@@ -7,7 +7,7 @@ class UserCreationTest extends TestCase
     private const FULL_INFO_ARRAY = ['1', 'username', 'firstName', 'lastName', 'email', 'password', 'type'];
     private const ERROR_INFO_ARRAY = [null, 'username', 'firstName', 'lastName', 'email', 'password', 'type'];
 
-    public function testWHEN_user_is_created_correctly_RETURN_true()
+    public function testUserCanBeCreatedCorrectly()
     {
         // Arrange
         $userDB = new \DBUserMock();
@@ -21,7 +21,7 @@ class UserCreationTest extends TestCase
         self::assertTrue($validation);
     }
 
-    public function testWHEN_user_is_created_wrong_RETURN_Exception()
+    public function testUserCreationExceptions()
     {
         // Arrange
         $userDB = new \DBUserMock();
@@ -43,7 +43,7 @@ class UserCreationTest extends TestCase
         }
     }
 
-    public function testWHEN_user_is_deleted_correctly_RETURN_true()
+    public function testUserCanBeDeletedCorrectly()
     {
         // Arrange
         $userDB = new \DBUserMock();
@@ -58,7 +58,7 @@ class UserCreationTest extends TestCase
         self::assertTrue($validation);
     }
 
-    public function testWHEN_user_is_deleted_wrong_RETURN_Exception()
+    public function testUserDeletionExceptions()
     {
         // Arrange
         $userDB = new \DBUserMock(null);

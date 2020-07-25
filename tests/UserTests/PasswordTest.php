@@ -6,7 +6,7 @@ class PasswordTest extends TestCase
 {
     private const FULL_INFO_ARRAY = ['1', 'username', 'firstName', 'lastName', 'email', 'password', 'type'];
 
-    public function testWHEN_password_is_hashed_RETURN_true()
+    public function testPasswordShouldBeHashed()
     {
         // Arrange
         $userDB = new \DBUserMock();
@@ -18,5 +18,9 @@ class PasswordTest extends TestCase
 
         // Assert
         self::assertNotEquals('password', $password);
+    }
+
+    public function testPasswordShouldBeChangeable()
+    {
     }
 }
