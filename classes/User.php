@@ -12,20 +12,32 @@ class User
     private $password;
     private $type;
 
+    /**
+     * @param userDB: The user database class
+     * @param infoArray: All the information in an array
+     * @return exception if the infoArray is missing data
+     */
     public function __construct($userDB, $infoArray)
     {
-        $this->userDB = $userDB;
-        $this->id = intval($infoArray[0]);
-        $this->username = $infoArray[1];
-        $this->firstName = $infoArray[2];
-        $this->lastName = $infoArray[3];
-        $this->email = $infoArray[4];
-        $this->password = $infoArray[5];
-        $this->type = $infoArray[6];
+        if (count($infoArray) == 7) {
+            $this->userDB = $userDB;
+            $this->id = intval($infoArray[0]);
+            $this->username = $infoArray[1];
+            $this->firstName = $infoArray[2];
+            $this->lastName = $infoArray[3];
+            $this->email = $infoArray[4];
+            $this->password = $infoArray[5];
+            $this->type = $infoArray[6];
 
-        $this->hashPassword();
+            self::hashPassword();
+        } else {
+            throw new InvalidArgumentException('Missing information');
+        }
     }
 
+    /**
+     * Creates the user in the database
+     */
     public function create()
     {
         $this->userDB->id = $this->id;
@@ -121,13 +133,34 @@ class User
         return true;
     }
 
+    /**
+     * Hash the password for security
+     */
     private function hashPassword()
     {
         $this->password = password_hash($this->password, PASSWORD_DEFAULT);
     }
 
+    /**
+     * @return password: a copy of the hashed password
+     */
     public function getPassword()
     {
         return $password = $this->password;
+    }
+
+    /**
+     * Changes the password
+     */
+    public function changePassword($newPassword)
+    {
+        $this->password = $newPassword;
+        self::hashPassword();
+        $this->userDB->password = $this->password;
+        $this->userDB->Save();
+
+        if (!password_verify($newPassword, $this->userDB->password)) {
+            throw new InvalidArgumentException('Password hasn\'nt been changed');
+        }
     }
 }

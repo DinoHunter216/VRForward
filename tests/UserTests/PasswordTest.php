@@ -11,16 +11,28 @@ class PasswordTest extends TestCase
         // Arrange
         $userDB = new \DBUserMock();
         $user = new \User($userDB, self::FULL_INFO_ARRAY);
+        
+        // Act
         $user->create();
 
-        // Act
-        $password = $user->getPassword();
-
         // Assert
+        $password = $user->getPassword();
         self::assertNotEquals('password', $password);
     }
 
     public function testPasswordShouldBeChangeable()
     {
+        // Arrange
+        $userDB = new \DBUserMock();
+        $user = new \User($userDB, self::FULL_INFO_ARRAY);
+        $user->create();
+        $newPassword = 'Robert123';
+
+        // Act
+        $user->changePassword($newPassword);
+
+        // Assert
+        $password = $user->getPassword();
+        self::assertTrue(password_verify($newPassword, $password));
     }
 }

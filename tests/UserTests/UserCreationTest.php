@@ -6,6 +6,7 @@ class UserCreationTest extends TestCase
 {
     private const FULL_INFO_ARRAY = ['1', 'username', 'firstName', 'lastName', 'email', 'password', 'type'];
     private const ERROR_INFO_ARRAY = [null, 'username', 'firstName', 'lastName', 'email', 'password', 'type'];
+    private const SMALL_INFO_ARRAY = ['1', 'username'];
 
     public function testUserCanBeCreatedCorrectly()
     {
@@ -43,6 +44,26 @@ class UserCreationTest extends TestCase
         }
     }
 
+    public function testUserCreationWithTooSmallInfoArray()
+    {
+        // Arrange
+        $userDB = new \DBUserMock();
+
+        // Act
+        try {
+            $user = new \User($userDB, self::SMALL_INFO_ARRAY);
+
+            // Assert
+            self::fail();
+        } catch (InvalidArgumentException $e) {
+            if ($e->getMessage() === 'Missing information') {
+                self::assertTrue(true);
+            } else {
+                self::fail();
+            }
+        }
+    }
+
     public function testUserCanBeDeletedCorrectly()
     {
         // Arrange
@@ -72,7 +93,6 @@ class UserCreationTest extends TestCase
             // Assert
             self::fail();
         } catch (InvalidArgumentException $e) {
-            var_dump($e->getMessage());
             if ($e->getMessage() === 'Should be null !') {
                 self::assertTrue(true);
             } else {

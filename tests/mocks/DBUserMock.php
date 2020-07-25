@@ -25,4 +25,9 @@ class DBUserMock
         $this->password = null;
         $this->type = null;
     }
+
+    public function save()
+    {
+        return true;
+    }
 }
