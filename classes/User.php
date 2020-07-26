@@ -163,4 +163,17 @@ class User
             throw new InvalidArgumentException('Password hasn\'nt been changed');
         }
     }
+
+    /**
+     * @param password: the password received to check with the actual password
+     * @return exception if the password is wrong
+     */
+    public function verifyPassword($password)
+    {
+        if (password_verify($password, $this->password)) {
+            return true;
+        } else {
+            throw new InvalidArgumentException('Wrong password');
+        }
+    }
 }
