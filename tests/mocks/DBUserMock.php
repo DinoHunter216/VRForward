@@ -30,12 +30,4 @@ class DBUserMock
     {
         return true;
     }
-
-    public function all()
-    {
-        return [
-                ['1', 'username', 'firstName', 'lastName', 'email', 'password', 'type'],
-                ['2', 'username2', 'firstName2', 'lastName2', 'email2', 'password2', 'type2']
-               ];
-    }
 }
