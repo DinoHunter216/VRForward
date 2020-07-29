@@ -6,7 +6,7 @@ class UserCreationTest extends TestCase
 {
     private const FULL_INFO_ARRAY = ['1', 'username', 'firstName', 'lastName', 'email', 'password', 'type'];
     private const ERROR_INFO_ARRAY = [null, 'username', 'firstName', 'lastName', 'email', 'password', 'type'];
-    private const SMALL_INFO_ARRAY = ['1', 'username'];
+    private const SMALL_INFO_ARRAY = ['1', 'username', 'firstName'];
 
     public function testUserCanBeCreatedCorrectly()
     {

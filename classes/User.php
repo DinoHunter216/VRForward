@@ -19,7 +19,21 @@ class User
      */
     public function __construct($userDB, $infoArray)
     {
-        if (count($infoArray) == 7) {
+        if (count($infoArray) == 2) {
+            $this->userDB = $userDB;
+            $this->username = $infoArray[0];
+            $this->id = self::checkForUser();
+            if ($this->id != -1) {
+                self::fetchInfos();
+                try {
+                    verifyPassword($infoArray[1]);
+                } catch (InvalidArgumentException $e) {
+                    throw new InvalidArgumentException($e->getMessage());
+                }
+            } else {
+                throw new InvalidArgumentException('Invalid user ID');
+            }
+        } elseif (count($infoArray) == 7) {
             $this->userDB = $userDB;
             $this->id = intval($infoArray[0]);
             $this->username = $infoArray[1];
@@ -168,12 +182,36 @@ class User
      * @param password: the password received to check with the actual password
      * @return exception if the password is wrong
      */
-    public function verifyPassword($password)
+    private function verifyPassword($password)
     {
         if (password_verify($password, $this->password)) {
             return true;
         } else {
             throw new InvalidArgumentException('Wrong password');
         }
+    }
+
+    private function checkForUser()
+    {
+        $users = $this->$userDB->all();
+
+        foreach ($users as $user) {
+            if ($user['username'] === $this->username) {
+                return $user['id'];
+            }
+        }
+        return -1;
+    }
+
+    private function fetchInfos()
+    {
+        $this->userDB->id = $this->id;
+        $this->userDB->Find();
+
+        $this->firstName = $this->userDB->firstName;
+        $this->lastName = $this->userDB->lastName;
+        $this->email = $this->userDB->email;
+        $this->password = $this->userDB->password;
+        $this->type = $this->userDB->type;
     }
 }
