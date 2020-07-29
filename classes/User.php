@@ -12,6 +12,10 @@ class User
     private $password;
     private $type;
 
+    /*************************************
+    Creation methods
+    *************************************/
+
     /**
      * @param userDB: The user database class
      * @param infoArray: All the information in an array
@@ -19,7 +23,7 @@ class User
      */
     public function __construct($userDB, $infoArray)
     {
-        if (count($infoArray) == 2) {
+        if (count($infoArray) == 2) {   // Connection
             $this->userDB = $userDB;
             $this->username = $infoArray[0];
             $this->id = self::checkForUser();
@@ -33,7 +37,7 @@ class User
             } else {
                 throw new InvalidArgumentException('Invalid user ID');
             }
-        } elseif (count($infoArray) == 7) {
+        } elseif (count($infoArray) == 7) { // Creation
             $this->userDB = $userDB;
             $this->id = intval($infoArray[0]);
             $this->username = $infoArray[1];
@@ -95,6 +99,93 @@ class User
     }
 
     /**
+     * Hash the password for security
+     */
+    private function hashPassword()
+    {
+        $this->password = password_hash($this->password, PASSWORD_DEFAULT);
+    }
+
+    /**
+     * @return password: a copy of the hashed password
+     */
+    public function getPassword()
+    {
+        return $password = $this->password;
+    }
+
+    /*************************************
+    Modification methods
+    *************************************/
+
+    /**
+     * Changes the password
+     */
+    public function changePassword($newPassword)
+    {
+        $this->password = $newPassword;
+        self::hashPassword();
+        $this->userDB->password = $this->password;
+        $this->userDB->Save();
+
+        if (!password_verify($newPassword, $this->userDB->password)) {
+            throw new InvalidArgumentException('Password hasn\'nt been changed');
+        }
+    }
+
+    /*************************************
+    Connection methods
+    *************************************/
+    
+    /**
+     * Checks the database to find the corresponding user
+     * @return id of the user
+     */
+    private function checkForUser()
+    {
+        $users = $this->$userDB->all();
+
+        foreach ($users as $user) {
+            if ($user['username'] === $this->username) {
+                return $user['id'];
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Finds all the information about the database user
+     */
+    private function fetchInfos()
+    {
+        $this->userDB->id = $this->id;
+        $this->userDB->Find();
+
+        $this->firstName = $this->userDB->firstName;
+        $this->lastName = $this->userDB->lastName;
+        $this->email = $this->userDB->email;
+        $this->password = $this->userDB->password;
+        $this->type = $this->userDB->type;
+    }
+    
+    /**
+     * @param password: the password received to check with the actual password
+     * @return exception if the password is wrong
+     */
+    private function verifyPassword($password)
+    {
+        if (password_verify($password, $this->password)) {
+            return true;
+        } else {
+            throw new InvalidArgumentException('Wrong password');
+        }
+    }
+
+    /*************************************
+    Deletion methods
+    *************************************/
+
+    /**
      * Deletes the user in the database
      */
     public function delete()
@@ -145,73 +236,5 @@ class User
             throw new InvalidArgumentException('Should be null !');
         }
         return true;
-    }
-
-    /**
-     * Hash the password for security
-     */
-    private function hashPassword()
-    {
-        $this->password = password_hash($this->password, PASSWORD_DEFAULT);
-    }
-
-    /**
-     * @return password: a copy of the hashed password
-     */
-    public function getPassword()
-    {
-        return $password = $this->password;
-    }
-
-    /**
-     * Changes the password
-     */
-    public function changePassword($newPassword)
-    {
-        $this->password = $newPassword;
-        self::hashPassword();
-        $this->userDB->password = $this->password;
-        $this->userDB->Save();
-
-        if (!password_verify($newPassword, $this->userDB->password)) {
-            throw new InvalidArgumentException('Password hasn\'nt been changed');
-        }
-    }
-
-    /**
-     * @param password: the password received to check with the actual password
-     * @return exception if the password is wrong
-     */
-    private function verifyPassword($password)
-    {
-        if (password_verify($password, $this->password)) {
-            return true;
-        } else {
-            throw new InvalidArgumentException('Wrong password');
-        }
-    }
-
-    private function checkForUser()
-    {
-        $users = $this->$userDB->all();
-
-        foreach ($users as $user) {
-            if ($user['username'] === $this->username) {
-                return $user['id'];
-            }
-        }
-        return -1;
-    }
-
-    private function fetchInfos()
-    {
-        $this->userDB->id = $this->id;
-        $this->userDB->Find();
-
-        $this->firstName = $this->userDB->firstName;
-        $this->lastName = $this->userDB->lastName;
-        $this->email = $this->userDB->email;
-        $this->password = $this->userDB->password;
-        $this->type = $this->userDB->type;
     }
 }
