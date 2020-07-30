@@ -1,0 +1,73 @@
+<body>
+	<form>
+		<div class="rendered-form">
+			<div class="formbuilder-text form-group field-title">
+				<label for="title" class="formbuilder-text-label"
+					>Article Title<span class="formbuilder-required" style="color: red;"
+						>*</span
+					></label
+				><input
+					type="text"
+					class="form-control"
+					name="title"
+					maxlength="255"
+					id="title"
+					required="required"
+				/>
+			</div>
+			<div class="formbuilder-text form-group field-subtitle">
+				<label for="subtitle" class="formbuilder-text-label">Subtitle</label>
+				<input
+					type="text"
+					class="form-control"
+					name="subtitle"
+					maxlength="255"
+					id="subtitle"
+				/>
+			</div>
+			<div class="formbuilder-textarea form-group field-main1">
+				<label for="paragraph" class="formbuilder-textarea-label"
+					>Place article text here</label
+				>
+				<textarea type="textarea" class="form-control" name="paragraph" id="paragraph">
+				</textarea>
+			</div>
+		</div>
+		<div id="addParagraph">
+			<button onclick="addParagraph()">Add Paragraph</button>
+		</div>
+		<input type="submit" value="Submit Article" />
+	</form>
+
+	<script>
+		var numberOfParagraph = 1;
+		function addParagraph() {
+			numberOfParagraph++;
+
+			let subtitle = document.createElement("div");
+			subtitle.innerHTML =
+				'<label for="subtitle' +
+				numberOfParagraph +
+				'" class="formbuilder-text-label">Subtitle' +
+				numberOfParagraph +
+				'</label><input type="text" class="form-control" name="subtitle' +
+				numberOfParagraph +
+				'" maxlength="255" id="subtitle' +
+				numberOfParagraph +
+				'"/>';
+
+			let paragraph = document.createElement("div");
+			paragraph.innerText =
+				'<label for="paragraph' +
+				numberOfParagraph +
+				'" class="formbuilder-textarea-label">Place article text here</label><textarea type="textarea" class="form-control" name="paragraph' +
+				numberOfParagraph +
+				'" id="paragraph' +
+				numberOfParagraph +
+				'"></textarea>';
+
+			document.getElementById("addParagraph").insertBefore(subtitle);
+			document.getElementById("addParagraph").insertBefore(paragraph);
+		}
+	</script>
+</body>
